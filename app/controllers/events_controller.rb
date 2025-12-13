@@ -5,12 +5,12 @@ class EventsController < ApplicationController
     @event=Event.new
   end
 
-  def index
+  def show
+    @event=Event.find(params[:id])
   end
 
   def create
     @event=current_user.events.build(event_params)
-    puts "hiii"
 
     if @event.save
       redirect_to users_show_path
@@ -23,6 +23,6 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:description)
+    params.require(:event).permit(:description, :title)
   end
 end

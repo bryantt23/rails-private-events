@@ -4,7 +4,7 @@
 <ul>
     <% @events.each do |event| %>
         <li>
-            <%= event.description %>
+            <%= link_to  event.title, event %>
         </li>
     <% end %>
 </ul>
