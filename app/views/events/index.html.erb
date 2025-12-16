@@ -1,2 +1,60 @@
-<h1>Events#index</h1>
-<p>Find me in app/views/events/index.html.erb</p>
+<h1>All Events</h1>
+
+<%= @attendees.find{|a| 3==a.event_id} %>
+<p>
+    current_user <%= current_user.id %>
+    </p>
+<%= @attendees.find{|a| 3==a.event_id}.user_id %>
+<br/>
+<br/>
+
+<%= @attendees %>
+<br/>
+<br/>
+<%= @events.to_a %>
+
+<table>
+    <tr>
+        <th>
+            Event ID
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Event Creator ID
+        </th>
+        <th>
+            Hosting
+        </th>
+        <th>
+            Attending
+        </th>
+    </tr>
+    <% @events.each do  |event| %>
+        <tr>
+            <td>            
+                <%= event.id %>
+            </td>     
+            <td>            
+                <%= event.title || "Missing title" %>
+            </td>                
+            <td>            
+                <%= event.description %>
+            </td>
+            <td>            
+                <%= event.user_id %>
+            </td>
+            <td>           
+                <%= event.user_id == current_user.id ? "Hosting" : "Not hosting" %> 
+            </td>
+            <td>            
+                <%= event.user_id == current_user.id ? "Yes Hosting" : @attendees.find{|a| event.id==a.event_id}&.user_id==current_user.id ? "Attending":"Not attending" %> 
+            </td>
+        </tr>
+    <% end %>
+
+</table>
