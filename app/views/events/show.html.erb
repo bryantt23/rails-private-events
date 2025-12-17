@@ -8,12 +8,18 @@
 <br/>
 <br/>
 
-<%= @attendees %>
+<%= @attendees.to_a %>
 <br/>
 <br/>
 <%= @events.to_a %>
                 <%=  @event.user_id == current_user.id ? "dis":"not dis" %>
 
+<h3>
+<%= @attendees.to_a.filter{|a| a.user_id!=current_user.id && a.event_id==@event.id }  %>
+    </h3>
+
+
+<p>Event Host ID: <%= @event.user_id %></p>
 <table>
     <tr>
         <th>
@@ -38,35 +44,45 @@
             Change Attending
         </th>
     </tr>
-        <tr>
-            <td>            
-                <%= @event.id %>
-            </td>     
-            <td>            
-                <%= @event.title || "Missing title" %>
-            </td>                
-            <td>            
-                <%= @event.description %>
-            </td>
-            <td>            
-                <%= @event.user_id %>
-            </td>
-            <td>           
-                <%= @event.user_id == current_user.id ? "Hosting" : "Not hosting" %> 
-            </td>
-            <td>
-                <%= @event.user_id == current_user.id ? "Yes Hosting" : @attendees.find{|a| @event.id==a.event_id && a.user_id==current_user.id} ? "Attendee":"Non attendee" %> 
-            </td>
-            <td>                         
-                <% if @event.user_id == current_user.id  %>
-                    N/A
-                <% else %>                
-                    <%= link_to "Change Attending",
-                        change_status_event_path(@event), 
-                        data:{turbo_method: :patch}
-                    %>
-                <% end %>
-            </td>
+    <tr>
+        <td>            
+            <%= @event.id %>
+        </td>     
+        <td>            
+            <%= @event.title || "Missing title" %>
+        </td>                
+        <td>            
+            <%= @event.description %>
+        </td>
+        <td>            
+            <%= @event.user_id %>
+        </td>
+        <td>           
+            <%= @event.user_id == current_user.id ? "Hosting" : "Not hosting" %> 
+        </td>
+        <td>
+            <%= @event.user_id == current_user.id ? "Yes Hosting" : @attendees.find{|a| @event.id==a.event_id && a.user_id==current_user.id} ? "Attendee":"Non attendee" %> 
+        </td>
+        <td>                         
+            <% if @event.user_id == current_user.id  %>
+                N/A
+            <% else %>                
+                <%= link_to "Change Attending",
+                    change_status_event_path(@event), 
+                    data:{turbo_method: :patch}
+                %>
+            <% end %>
+        </td>
     </tr>
+</table>
 
+<p>Other Attendees</p>
+<table>
+    <% @attendees.filter{|a| a.user_id!=current_user.id && a.event_id==@event.id }.each do |attendee| %>
+       <tr>
+            <td>            
+                <%= attendee.user_id %>
+            </td>     
+        </tr>
+    <% end %>
 </table>
