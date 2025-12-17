@@ -11,7 +11,26 @@ class EventsController < ApplicationController
   end
 
   def show
+    @attendees=Attendee.all
     @event=Event.find(params[:id])
+  end
+
+  def change_status
+    puts "change yo"
+    @attendees=Attendee.all
+    @event=Event.find(params[:id])
+    attending=@attendees.find { |a| @event.id==a.event_id && a.user_id==current_user.id }
+      puts "#{attending}
+
+
+attending
+      "
+    if attending
+      Attendee.delete(attending.id)
+    else
+      Attendee.create({ user_id: current_user.id, event_id: params[:id] })
+    end
+    redirect_to @event
   end
 
   def create
