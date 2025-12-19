@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   def show
     @attendees=Attendee.all
-    @events=current_user.events.to_a
+    @hosting=current_user.events.to_a
+    @events=Event.all
   end
 end
