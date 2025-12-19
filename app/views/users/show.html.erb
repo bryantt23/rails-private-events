@@ -26,25 +26,19 @@
     <h2>Attending</h2>
     <h3>Future</h3>
     <ul>
-        <% @attendees.filter{|a| a.user_id==current_user.id }.each do |event| %>
-            <% if @events.find{|e| e.id == event.event_id}.date >= Date.today %>
+        <% @future_events.each do |event| %>
             <li>
-                <%= event.event_id %>
-                
+                <%= event.event_id %>                
                 <%= link_to "Link", event_path(event.event_id) %>
             </li>
-            <% end %>
         <% end %>
     </ul>
     <h3>Past</h3>
     <ul>
-        <% @attendees.filter{|a| a.user_id==current_user.id }.each do |event| %>
-            <% if @events.find{|e| e.id == event.event_id}.date < Date.today %>
+        <% @past_events.each do |event| %>
             <li>
-                <%= event.event_id %>
-                
+                <%= event.event_id %>                
                 <%= link_to "Link", event_path(event.event_id) %>
             </li>
-            <% end %>
         <% end %>
     </ul>
