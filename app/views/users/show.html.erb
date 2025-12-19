@@ -2,23 +2,49 @@
 <p>Find me in app/views/users/show.html.erb</p>
 
 <p>
+    hosting <%= @hosting.to_a %>
+    </p>
+<p>
+    Attending <%= @attendees.to_a %>
+    </p>
+<p>
+    <p>
+    all events <%= @events.to_a %>
+    </p>
+
     current_user <%= current_user.id %>
     </p>
-<ul>
+
     <h2>Hosting</h2>
-    <% @events.each do |event| %>
+    <ul>
+    <% @hosting.each do |event| %>
         <li>
             <%= link_to  event.title, event %>
         </li>
     <% end %>
+    </ul>
     <h2>Attending</h2>
+    <h3>Future</h3>
     <ul>
-        <% @attendees.filter{|a| a.user_id==current_user.id }.each do |attendee| %>
+        <% @attendees.filter{|a| a.user_id==current_user.id }.each do |event| %>
+            <% if @events.find{|e| e.id == event.event_id}.date >= Date.today %>
             <li>
-                <%= attendee.event_id %>
+                <%= event.event_id %>
                 
-                <%= link_to "Link", event_path(attendee.event_id) %>
+                <%= link_to "Link", event_path(event.event_id) %>
             </li>
+            <% end %>
         <% end %>
     </ul>
-</ul>
+    <h3>Past</h3>
+    <ul>
+        <% @attendees.filter{|a| a.user_id==current_user.id }.each do |event| %>
+            <% if @events.find{|e| e.id == event.event_id}.date < Date.today %>
+            <li>
+                <%= event.event_id %>
+                
+                <%= link_to "Link", event_path(event.event_id) %>
+            </li>
+            <% end %>
+        <% end %>
+    </ul>
