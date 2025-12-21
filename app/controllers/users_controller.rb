@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     @attendees=Attendee.all
     @hosting=current_user.events.to_a
     @events=Event.all
-    @future_events=Event.future(@attendees, @events, current_user)
-    @past_events=Event.past(@attendees, @events, current_user)
+    @future_events=Event.future(current_user)
+    @past_events=Event.past(current_user)
   end
 end

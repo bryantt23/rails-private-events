@@ -1,18 +1,14 @@
-class Event < ApplicationRecord
+class Event < ApplicationRecord  
   belongs_to :creator, class_name: "User", foreign_key: "user_id"
-  has_many :attendees, through: :attendees
 
-  scope :future, ->(attendees, events, current_user) {
-    attended_events = attendees.filter { |a| a.user_id==current_user.id }
-    future_events=attended_events.filter { |event|
-      events.find { |e| e.id == event.event_id }.date >= Date.today
-    }
+  has_many :attendees
+  has_many :users, through: :attendees
+  
+  scope :future, ->(current_user) {
+    joins(:attendees).where("attendees.user_id = ?", current_user.id).where("events.date >= ?", Date.today)  
   }
 
-  scope :past, ->(attendees, events, current_user) {
-    attended_events = attendees.filter { |a| a.user_id==current_user.id }
-    future_events=attended_events.filter { |event|
-      events.find { |e| e.id == event.event_id }.date < Date.today
-    }
+  scope :past, ->(current_user) {
+    joins(:attendees).where("attendees.user_id = ?", current_user.id).where("events.date < ?", Date.today)
   }
 end

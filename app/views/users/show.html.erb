@@ -28,8 +28,8 @@
     <ul>
         <% @future_events.each do |event| %>
             <li>
-                <%= event.event_id %>                
-                <%= link_to "Link", event_path(event.event_id) %>
+                <%= event.id %>                
+                <%= link_to "Link", event_path(event.id) %>
             </li>
         <% end %>
     </ul>
@@ -37,8 +37,8 @@
     <ul>
         <% @past_events.each do |event| %>
             <li>
-                <%= event.event_id %>                
-                <%= link_to "Link", event_path(event.event_id) %>
+                <%= event.id %>                
+                <%= link_to "Link", event_path(event.id) %>
             </li>
         <% end %>
     </ul>
