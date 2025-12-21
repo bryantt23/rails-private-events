@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get "users/show"
   devise_for :users
-  resources :events, only: [ :index, :new, :create, :show ] do
+  resources :events do
     member do
       patch "change_status"
     end 

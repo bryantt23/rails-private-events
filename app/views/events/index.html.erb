@@ -36,6 +36,9 @@
         <th>
             Event Page
         </th>
+        <th>
+            Edit
+        </th>
     </tr>
     <% @events.each do  |event| %>
         <tr>
@@ -59,6 +62,13 @@
             </td>
             <td>
                 <%= link_to "Link", event %>
+            </td>
+            <td>           
+                <% if event.user_id == current_user.id %>
+                    <%= link_to "Edit", edit_event_path(event) %>
+                <% else %>
+                    "N/A"
+                <% end %>            
             </td>
         </tr>
     <% end %>
