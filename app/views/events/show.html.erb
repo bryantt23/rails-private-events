@@ -17,8 +17,6 @@
 <h3>
 <%= @attendees.to_a.filter{|a| a.user_id!=current_user.id && a.event_id==@event.id }  %>
     </h3>
-
-
 <p>Event Host ID: <%= @event.user_id %></p>
 <table>
     <tr>
@@ -65,24 +63,54 @@
         </td>
         <td>                         
             <% if @event.user_id == current_user.id  %>
-                N/A
-            <% else %>                
-                <%= link_to "Change Attending",
+                N/A Hosting
+            <% else  %>
+                <% if @invitations.find{|i| i.user_id==current_user.id && i.event_id==@event.id} %>
+                    Invited <%= link_to "Change Attending",
                     change_status_event_path(@event), 
                     data:{turbo_method: :patch}
                 %>
+                <% else %>
+                    Not Invited
+                <% end %>                
             <% end %>
         </td>
     </tr>
 </table>
 
-<p>Other Attendees</p>
-<table>
-    <% @attendees.filter{|a| a.user_id!=current_user.id && a.event_id==@event.id }.each do |attendee| %>
-       <tr>
-            <td>            
-                <%= attendee.user_id %>
-            </td>     
+<% if  @event.user_id == current_user.id  %>
+    <p>Other Users</p>
+    <table>
+        <tr>
+            <th>
+                User ID
+            </th>
+            <th>
+                Invited
+            </th>
+            <th>
+                Toggle Invite
+            </th>
         </tr>
-    <% end %>
-</table>
+        <% @users.filter{|user| user.id!=current_user.id}.each do |user| %>
+            <tr>
+                <td>            
+                    <%= user.id %>
+                </td>  
+                <td>                    
+                    <% if @invitations.find{|i| i.user_id==user.id  } %>
+                        Invited
+                    <% else %>
+                        Not Invited
+                    <% end %> 
+                </td>
+                <td>
+                    <%= link_to "Change Invite",
+                        change_invite_event_path(@event, user_id: user.id), 
+                        data:{turbo_method: :patch} 
+                    %>
+                </td>
+            </tr>
+        <% end %>
+    </table>
+<% end %>

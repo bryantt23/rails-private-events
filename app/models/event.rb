@@ -3,6 +3,8 @@ class Event < ApplicationRecord
 
   has_many :attendees
   has_many :users, through: :attendees
+  has_many :invitations
+  has_many :users, through: :invitations
   
   scope :future, ->(current_user) {
     joins(:attendees).where("attendees.user_id = ?", current_user.id).where("events.date >= ?", Date.today)  

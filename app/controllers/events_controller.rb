@@ -21,11 +21,38 @@ class EventsController < ApplicationController
   def index
     @attendees=Attendee.all
     @events=Event.all
+    @invitations=Invitation.all
   end
 
   def show
     @attendees=Attendee.all
     @event=Event.find(params[:id])
+    @invitations=Invitation.all
+    @users=User.all
+  end
+
+  def change_invite
+    @event=Event.find(params[:id])
+    @invitations=Invitation.all
+    user_id=params[:user_id].to_i
+    invite=Invitation.find_by(
+      user_id: user_id,
+      event_id: @event.id
+    )
+    if invite
+      invite.destroy
+      attendee=Attendee.find_by(
+        user_id: user_id,
+        event_id: @event.id
+      )
+      if attendee
+        attendee.destroy
+      end
+    else
+      Invitation.create(event: @event, user_id: user_id)
+    end
+
+    redirect_to @event
   end
 
   def change_access

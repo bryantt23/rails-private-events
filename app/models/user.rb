@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :events, dependent: :destroy
   has_many :attended_events, through: :attendees
+  has_many :invitations
 end

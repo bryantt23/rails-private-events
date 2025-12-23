@@ -13,6 +13,10 @@
 <br/>
 <%= @events.to_a %>
 
+<p>
+    invitations
+    <%= @invitations.to_a %>
+</p>
 <table>
     <tr>
         <th>
@@ -47,6 +51,9 @@
         </th>
         <th>
             Change Access
+        </th>
+        <th>
+            Invited
         </th>
     </tr>
     <% @events.each do  |event| %>
@@ -95,6 +102,9 @@
                 <% else %>
                     N/A
                 <% end %>            
+            </td>
+            <td>
+                <%= event.user_id == current_user.id ? "N/A Hosting" : @invitations.find{|i| i.user_id==current_user.id && i.event_id==event.id} ? "Invited":"Not invited" %> 
             </td>
         </tr>
     <% end %>
