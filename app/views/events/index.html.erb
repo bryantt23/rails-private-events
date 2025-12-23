@@ -42,6 +42,12 @@
         <th>
             Delete
         </th>
+        <th>
+            Access
+        </th>
+        <th>
+            Change Access
+        </th>
     </tr>
     <% @events.each do  |event| %>
         <tr>
@@ -76,6 +82,16 @@
             <td>           
                 <% if event.user_id == current_user.id %>
                     <%= link_to 'Delete', event_path(event), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
+                <% else %>
+                    N/A
+                <% end %>            
+            </td>
+            <td>
+                <%= event.private ? "Private":"Public"%>
+            </td>
+            <td>           
+                <% if event.user_id == current_user.id %>                 
+                    <%= link_to 'Change Access', change_access_event_path(event), data: { turbo_method: :patch} %>
                 <% else %>
                     N/A
                 <% end %>            

@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     member do
       patch "change_status"
     end 
+    member do
+      patch "change_access"
+    end 
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

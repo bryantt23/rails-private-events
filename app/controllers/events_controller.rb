@@ -28,6 +28,13 @@ class EventsController < ApplicationController
     @event=Event.find(params[:id])
   end
 
+  def change_access
+    @event=Event.find(params[:id])
+    @event.private=!@event.private
+    @event.save
+    redirect_to events_path
+  end
+
   def change_status
     @attendees=Attendee.all
     @event=Event.find(params[:id])
